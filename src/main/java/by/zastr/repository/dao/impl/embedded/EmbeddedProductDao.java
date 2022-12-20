@@ -1,7 +1,6 @@
 package by.zastr.repository.dao.impl.embedded;
 
 import by.zastr.repository.dao.ProductDao;
-import by.zastr.repository.entity.DiscountCard;
 import by.zastr.repository.entity.Product;
 import by.zastr.repository.entity.storage.Warehouse;
 import lombok.Data;

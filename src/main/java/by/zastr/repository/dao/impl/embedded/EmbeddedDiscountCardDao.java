@@ -3,7 +3,6 @@ package by.zastr.repository.dao.impl.embedded;
 import by.zastr.repository.dao.DiscountCardDao;
 import by.zastr.repository.entity.DiscountCard;
 import by.zastr.repository.entity.storage.DiscountCardDB;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;

@@ -59,15 +59,10 @@ public class ReceiptServiceImpl implements ReceiptService {
         for (int id: products.keySet()){
             Product product = productService.find(id);
             int amount = products.get(id);
-            receipt.getProducts().put(product,amount);
             BigDecimal total = receipt.getTotal();
             BigDecimal cost = product.getPrice().multiply(BigDecimal.valueOf(amount));
-            if (receipt.isPromotional()){
+            if (product.isPromotional() && receipt.isPromotional()){
                 cost = cost.multiply(BigDecimal.valueOf(PROMOTIONAL_DISCOUNT));
-            }
-            if (idCard != 0){
-                cost = cost.multiply(BigDecimal.valueOf(PERCENTAGE_CONVERSION))
-                            .multiply(BigDecimal.valueOf(receipt.getCard().getDiscount()));
             }
             receipt.setTotal(total.add(cost));
             receipt.addProduct(product, amount);

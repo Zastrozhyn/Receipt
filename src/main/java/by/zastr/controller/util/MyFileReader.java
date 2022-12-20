@@ -2,7 +2,6 @@ package by.zastr.controller.util;
 
 import by.zastr.service.exception.EntityException;
 import by.zastr.service.exception.ExceptionCode;
-import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -20,7 +19,7 @@ public class MyFileReader {
         if (file == null || file.isBlank()) {
             throw new EntityException(ExceptionCode.FILE_NOT_FOUND.getErrorCode());
         }
-        List<String> list = new ArrayList<>();
+        List<String> list;
         Path dataFile = Paths.get(file);
         try (Stream<String> dataStream = Files.lines(dataFile)){
             list = dataStream.collect(Collectors.toList());

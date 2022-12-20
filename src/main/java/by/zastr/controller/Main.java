@@ -5,9 +5,6 @@ import by.zastr.service.exception.EntityException;
 import by.zastr.service.exception.ExceptionCode;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-import java.util.List;
-
-
 public class Main {
 
     private final static String SOURCE = "src\\main\\resources\\product.txt";

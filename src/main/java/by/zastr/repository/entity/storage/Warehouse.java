@@ -21,5 +21,11 @@ public class Warehouse {
                                             new Product(6, BigDecimal.valueOf(40), "Vine", true),
                                             new Product(7, BigDecimal.valueOf(20), "Pizza", true),
                                             new Product(9, BigDecimal.valueOf(23), "Sushi", true)));
+        Product product = new Product();
+        product.setId(10)
+                .setName("Something")
+                .setPrice(BigDecimal.valueOf(100))
+                .setPromotional(true);
+        products.add(product);
     }
 }
