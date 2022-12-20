@@ -3,13 +3,11 @@ package by.zastr.repository.dao.impl.embedded;
 import by.zastr.repository.dao.DiscountCardDao;
 import by.zastr.repository.entity.DiscountCard;
 import by.zastr.repository.entity.storage.DiscountCardDB;
-import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Data
 @Repository
 public class EmbeddedDiscountCardDao implements DiscountCardDao {
 

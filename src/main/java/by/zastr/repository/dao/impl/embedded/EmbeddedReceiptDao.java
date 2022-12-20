@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Data
 @Repository
 public class EmbeddedReceiptDao implements ReceiptDao {
 

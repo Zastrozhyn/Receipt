@@ -1,4 +1,4 @@
-Time2022-12-20T18:08:40.880024900
+Time2022-12-20T18:50:49.672663500
 Receipt -----> 
 1. water, amount :1, price: 5
 2. Milk, amount :5, price: 50discount= 5.0
