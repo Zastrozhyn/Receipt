@@ -1,13 +1,24 @@
 # Receipt writer
 This is a service for displaying a finished check on the console, calculating discounts depending on the discount card and whether the product is promotional.
 
-2 versions are available. The "embadded_DB" branch implements the storage of products directly in the program code.
-Branch "PostgreSQL" - data is stored and processed in PostgreSQL
+3 versions are available: 
+
+ - The "embadded_DB" branch implements the storage of products directly in the program code.
+ - Branch "PostgreSQL" - data is stored and processed in PostgreSQL
+ - The "REST" branch is a rest application based on Spring Boot with the following endpoints:
+   
+1)http://localhost:8080/products - you can get information about products
+   
+2)http://localhost:8080/products/create - create a receipt by transferring products and a discount card
+   
+3)http://localhost:8080/cards - information about discount cards
+   Exceptions were also handled (absence of a product or a discount card) using
+   ExceptionControllerAdviser.
 
 ## Technology stack:
-
 - Spring core
 - Spring JDBC
+- Spring Boot
 - Stream API
 - Java 17
 - Gradle
