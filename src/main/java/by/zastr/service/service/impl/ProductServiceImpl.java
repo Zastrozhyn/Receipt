@@ -6,6 +6,7 @@ import by.zastr.service.exception.EntityException;
 import by.zastr.service.exception.ExceptionCode;
 import by.zastr.service.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +19,7 @@ public class ProductServiceImpl implements ProductService {
     private final ProductDao dao;
 
     @Autowired
-    public ProductServiceImpl(ProductDao dao){
+    public ProductServiceImpl(@Qualifier("productDaoImpl") ProductDao dao){
         this.dao = dao;
     }
 

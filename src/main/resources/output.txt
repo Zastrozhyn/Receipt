@@ -1,9 +1,9 @@
-Time2022-12-20T18:50:49.672663500
+Time2022-12-21T15:02:43.628459400
 Receipt -----> 
-1. water, amount :1, price: 5
-2. Milk, amount :5, price: 50discount= 5.0
-3. Cheese, amount :1, price: 10
+1. Bread, amount :5, price: 10
+2. Butter, amount :1, price: 3
+3. Milk, amount :1, price: 1
 -------------------------------------
-Total= 60.0
-total discount for card id= 1, discount= 6.00
-to pay = 54.00
+Total= 14
+total discount for card id= 1, discount= 1.4
+to pay = 12.6
