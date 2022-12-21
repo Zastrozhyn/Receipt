@@ -1,4 +1,4 @@
-Time2022-12-21T14:45:51.964595500
+Time2022-12-21T15:02:43.628459400
 Receipt -----> 
 1. Bread, amount :5, price: 10
 2. Butter, amount :1, price: 3
