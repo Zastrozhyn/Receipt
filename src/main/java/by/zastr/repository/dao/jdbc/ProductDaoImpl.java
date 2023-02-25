@@ -6,15 +6,25 @@ import by.zastr.repository.entity.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreatorFactory;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import java.sql.PreparedStatement;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class ProductDaoImpl implements ProductDao {
 
     public static final String FIND_BY_ID = "SELECT id, name, price, promotional FROM products WHERE id=?";
     public static final String FIND_ALL = "SELECT id, name, price, promotional FROM products";
+    private static final String CREATE_PRODUCT = "INSERT INTO products (name, price, promotional) VALUES (NULL,?,?,?)";
+    private static final String UPDATE_PRODUCT = "UPDATE products SET name=?, price=?, promotional=? WHERE id=?)";
+    private final static String DELETE_PRODUCT = "DELETE FROM products WHERE id = ?";
 
     private final JdbcTemplate jdbcTemplate;
     private final ProductMapper mapper;
@@ -42,7 +52,29 @@ public class ProductDaoImpl implements ProductDao {
     }
 
     @Override
-    public boolean delete(int id){
-        return false;
+    public void delete(int id){
+    }
+
+    @Override
+    public Product update(Product product){
+        jdbcTemplate.update(UPDATE_PRODUCT, product.getName(), product.getPrice(), product.isPromotional(), product.getId());
+        return product;
+    }
+
+    @Override
+    public Product create(Product product){
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("name", product.getName());
+        params.put("age", product.getPrice());
+        params.put("promotional", product.isPromotional());
+        SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate);
+        KeyHolder keyHolder = simpleJdbcInsert
+                .withTableName("person")
+                .usingColumns("name", "age")
+                .usingGeneratedKeyColumns("id")
+                .withoutTableColumnMetaDataAccess()
+                .executeAndReturnKeyHolder(params);
+        product.setId(keyHolder.getKey().intValue());
+        return product;
     }
 }

@@ -1,0 +1,3 @@
+cache:
+  capacity: 10
+  type: LFU
