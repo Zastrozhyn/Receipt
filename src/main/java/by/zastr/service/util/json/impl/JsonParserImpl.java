@@ -28,6 +28,9 @@ public class JsonParserImpl implements JsonParser {
         for(Field field : superclass.getDeclaredFields()){
             result.append(writeField(field, obj));
         }
+        if (superclass.getDeclaredFields().length > 0){
+            result.append(COMMA);
+        }
         Class<?> clazz = obj.getClass();
         for(Field field : clazz.getDeclaredFields()){
             result.append(writeField(field, obj));
@@ -120,8 +123,11 @@ public class JsonParserImpl implements JsonParser {
             result.append(json.charAt(index));
             index++;
         }
-        if (ClassUtils.isPrimitiveOrWrapper(clazz)){
-            result.deleteCharAt(result.length()-1);
+        if (ClassUtils.isPrimitiveOrWrapper(clazz)  && result.charAt(result.length() - 1) == COMMA){
+            result.deleteCharAt(result.length() - 1);
+        }
+        if (ClassUtils.isPrimitiveOrWrapper(clazz)  && result.charAt(result.length() - 1) == RIGHT_BRACE){
+            result.deleteCharAt(result.length() - 1);
         }
         return result.toString();
     }
@@ -139,6 +145,7 @@ public class JsonParserImpl implements JsonParser {
                 for (Class<?> clazz : field.getType().getInterfaces()){
                     if(clazz.equals(Collection.class)){
                         result.append(writeCollection(obj, field));
+                        result.append(COMMA);
                         isCollectionOrMap = true;
                         break;
                     }
@@ -148,7 +155,11 @@ public class JsonParserImpl implements JsonParser {
                     isCollectionOrMap = true;
                 }
                 if (!isCollectionOrMap){
-                    result.append(field.getName())
+                    result
+                            .append(COMMA)
+                            .append(QUOTE)
+                            .append(field.getName())
+                            .append(QUOTE)
                             .append(COLON)
                             .append(writeObject(field.get(obj)));
                 }
@@ -163,8 +174,7 @@ public class JsonParserImpl implements JsonParser {
                 .append(field.getName())
                 .append(QUOTE)
                 .append(COLON)
-                .append(field.get(obj))
-                .append(COMMA);
+                .append(field.get(obj));
         return result.toString();
     }
 
