@@ -9,29 +9,31 @@ public class LRUCacheImpl<T> implements MyCache<T> {
     private final LinkedList<Integer> order = new LinkedList<>();
     private final int capacity;
 
-    public LRUCacheImpl(int capacity) {
+    public LRUCacheImpl(int capacity){
         this.capacity = capacity;
     }
 
     @Override
-    public void put(int id, T val) {
-
+    public void put(int id, T val){
         if (order.size() >= capacity) {
             int keyRemoved = order.removeLast();
             data.remove(keyRemoved);
         }
         order.addFirst(id);
         data.put(id, val);
-
     }
 
     @Override
-    public T get(int id) {
+    public T get(Integer id){
         T result = data.get(id);
-        if(result != null) {
+        if (result != null) {
             order.remove(id);
             order.addFirst(id);
         }
         return result;
+    }
+
+    public int getCapacity(){
+        return capacity;
     }
 }

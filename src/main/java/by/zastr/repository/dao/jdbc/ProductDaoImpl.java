@@ -6,13 +6,10 @@ import by.zastr.repository.entity.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.PreparedStatementCreatorFactory;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-import java.sql.PreparedStatement;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -53,6 +50,7 @@ public class ProductDaoImpl implements ProductDao {
 
     @Override
     public void delete(int id){
+        jdbcTemplate.update(DELETE_PRODUCT, id);
     }
 
     @Override
@@ -65,12 +63,12 @@ public class ProductDaoImpl implements ProductDao {
     public Product create(Product product){
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("name", product.getName());
-        params.put("age", product.getPrice());
+        params.put("price", product.getPrice());
         params.put("promotional", product.isPromotional());
         SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate);
         KeyHolder keyHolder = simpleJdbcInsert
-                .withTableName("person")
-                .usingColumns("name", "age")
+                .withTableName("products")
+                .usingColumns("name", "price", "promotional")
                 .usingGeneratedKeyColumns("id")
                 .withoutTableColumnMetaDataAccess()
                 .executeAndReturnKeyHolder(params);

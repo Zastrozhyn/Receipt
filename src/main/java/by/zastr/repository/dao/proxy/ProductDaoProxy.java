@@ -27,8 +27,8 @@ public class ProductDaoProxy implements ProductDao {
         Product product = factory.cache().get(id);
         if(product == null){
             product = dao.find(id);
+            factory.cache().put(id, product);
         }
-        factory.cache().put(id, product);
         return product;
     }
 

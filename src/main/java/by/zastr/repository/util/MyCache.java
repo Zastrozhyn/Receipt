@@ -3,5 +3,5 @@ package by.zastr.repository.util;
 public interface MyCache<T> {
 
     void put(int id, T val);
-    T get(int id);
+    T get(Integer id);
 }

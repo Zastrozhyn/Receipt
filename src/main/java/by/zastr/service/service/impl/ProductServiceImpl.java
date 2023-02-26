@@ -48,7 +48,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void create(Product product){
-
+    public Product create(Product product){
+        return dao.create(product);
     }
 }

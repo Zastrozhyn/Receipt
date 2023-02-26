@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.LinkedHashSet;
 
 public class LFUCacheImpl<T> implements MyCache<T> {
+    private static final Integer ONE = 1;
     private final HashMap<Integer, T> values = new HashMap<>();
     private final HashMap<Integer, Integer> counts = new HashMap<>();
     private final HashMap<Integer, LinkedHashSet<Integer>> lists = new HashMap<>();
@@ -14,10 +15,11 @@ public class LFUCacheImpl<T> implements MyCache<T> {
 
     public LFUCacheImpl(int capacity) {
         this.capacity = capacity;
+        lists.put(ONE, new LinkedHashSet<>());
     }
 
     @Override
-    public T get(int key) {
+    public T get(Integer key) {
         if (!values.containsKey(key))
             return null;
         int count = counts.get(key);
@@ -40,25 +42,18 @@ public class LFUCacheImpl<T> implements MyCache<T> {
             return;
         }
         if (values.size() >= capacity) {
-            int frequentToRemove = lists.get(minFrequent).iterator().next();
-            lists.get(minFrequent).remove(frequentToRemove);
-            values.remove(frequentToRemove);
-            counts.remove(frequentToRemove);
+            int idToRemove = lists.get(minFrequent).iterator().next();
+            lists.get(minFrequent).remove(idToRemove);
+            values.remove(idToRemove);
+            counts.remove(idToRemove);
         }
         values.put(key, value);
         counts.put(key, 1);
         minFrequent = 1;
-        lists.get(1).add(key);
+        lists.get(ONE).add(key);
     }
 
-    @Override
-    public String toString(){
-        return "LFUCacheImpl{" +
-                "values=" + values +
-                ", counts=" + counts +
-                ", lists=" + lists +
-                ", capacity=" + capacity +
-                ", minFrequent=" + minFrequent +
-                '}';
+    public int getCapacity(){
+        return capacity;
     }
 }
