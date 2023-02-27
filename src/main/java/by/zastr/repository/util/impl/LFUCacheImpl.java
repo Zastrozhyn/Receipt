@@ -43,6 +43,7 @@ public class LFUCacheImpl<T> implements MyCache<T> {
         }
         if (values.size() >= capacity) {
             int idToRemove = lists.get(minFrequent).iterator().next();
+            System.out.println(lists.get(minFrequent));
             lists.get(minFrequent).remove(idToRemove);
             values.remove(idToRemove);
             counts.remove(idToRemove);

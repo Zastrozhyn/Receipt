@@ -11,8 +11,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class LFUCacheImplTest {
 
-    private static final int CAPACITY = 10;
+    private static final int CAPACITY = 2;
     private static final int ID = 1;
+    private static final int ID_2 = 2;
+    private static final int ID_3 = 3;
     private static final BigDecimal PRODUCT_PRICE = BigDecimal.ONE;
     private static final String PRODUCT_NAME = "Name";
     private static final int ID_NOT_EXIST = 111;
@@ -45,4 +47,22 @@ class LFUCacheImplTest {
         cache.put(ID, product);
         assertThat(cache.get(ID)).isEqualTo(product);
     }
+
+    @Test
+    void checkOutOfCapacity(){
+        assertThat(cache.get(ID)).isNull();
+        cache.put(ID, product);
+        assertThat(cache.get(ID)).isEqualTo(product);
+
+        Product product1 =  new Product().setId(ID_2);
+        cache.put(ID_2,product1);
+        cache.get(ID_2);
+
+        Product product2 =  new Product().setId(ID_3);
+        cache.put(ID_3, product2);
+        cache.get(ID_3);
+
+        assertThat(cache.get(ID)).isNull();
+    }
+
 }
