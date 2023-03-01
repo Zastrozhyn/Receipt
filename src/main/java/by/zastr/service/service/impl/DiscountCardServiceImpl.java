@@ -19,7 +19,7 @@ public class DiscountCardServiceImpl implements DiscountCardService {
     private final DiscountCardDao dao;
 
     @Autowired
-    public DiscountCardServiceImpl(@Qualifier("discountCardDaoImpl") DiscountCardDao dao){
+    public DiscountCardServiceImpl(DiscountCardDao dao){
         this.dao = dao;
     }
 
