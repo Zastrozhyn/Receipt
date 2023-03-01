@@ -19,7 +19,7 @@ public class ProductServiceImpl implements ProductService {
     private final ProductDao dao;
 
     @Autowired
-    public ProductServiceImpl(@Qualifier("productDaoImpl") ProductDao dao){
+    public ProductServiceImpl(@Qualifier("productDaoProxy") ProductDao dao){
         this.dao = dao;
     }
 
@@ -38,7 +38,17 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public boolean delete(int id){
-        return dao.delete(id);
+    public void delete(int id){
+        dao.delete(id);
+    }
+
+    @Override
+    public Product update(Product product){
+        return null;
+    }
+
+    @Override
+    public Product create(Product product){
+        return dao.create(product);
     }
 }

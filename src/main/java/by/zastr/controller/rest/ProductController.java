@@ -35,6 +35,11 @@ public class ProductController {
         return service.find(id);
     }
 
+    @PostMapping
+    public Product createProduct(@RequestBody Product product){
+        return service.create(product);
+    }
+
     @GetMapping("/create")
     public Receipt create(@RequestParam(required = true, name = "products") List<Integer> products,
                           @RequestParam(required = true, name = "amount") List<Integer> amount,

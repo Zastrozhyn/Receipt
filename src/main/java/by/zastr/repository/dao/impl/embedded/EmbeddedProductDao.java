@@ -33,13 +33,22 @@ public class EmbeddedProductDao implements ProductDao {
     }
 
     @Override
-    public boolean delete(int id){
+    public void delete(int id){
         Product product = find(id);
         if(product == null){
-            return false;
+            return;
         } else {
             warehouse.getProducts().remove(product);
         }
-        return true;
+    }
+
+    @Override
+    public Product update(Product product){
+        return null;
+    }
+
+    @Override
+    public Product create(Product product){
+        return product;
     }
 }
