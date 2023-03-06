@@ -1,0 +1,111 @@
+--Вывести к каждому самолету класс обслуживания и количество мест этого класса
+
+SELECT a.model, s.fare_conditions, count(s.fare_conditions) AS seats
+FROM aircrafts_data a 
+JOIN seats s 
+ON a.aircraft_code = s.aircraft_code
+GROUP BY a.model, s.fare_conditions
+
+
+--Найти 3 самых вместительных самолета (модель + кол-во мест)
+
+SELECT a.model, count(s.seat_no) AS seats
+FROM aircrafts_data a 
+JOIN seats s 
+ON a.aircraft_code = s.aircraft_code
+GROUP BY a.model
+ORDER BY seats DESC
+LIMIT 3
+
+
+--Вывести код,модель самолета и места не эконом класса для самолета 'Аэробус A321-200' с сортировкой по местам
+
+SELECT a.aircraft_code, a.model, s.seat_no, s.fare_conditions
+FROM aircrafts_data a 
+JOIN seats s 
+ON a.aircraft_code = s.aircraft_code
+WHERE a.model @> '{"ru": "Аэробус A321-200"}' 
+	AND s.fare_conditions != 'Economy'
+
+--Вывести города в которых больше 1 аэропорта ( код аэропорта, аэропорт, город)
+
+SELECT airport_code, city, airport_name 
+FROM airports_data
+WHERE city = 
+	(SELECT city
+	FROM airports_data
+	GROUP BY city
+	having count(city) > 2)
+
+-- Найти ближайший вылетающий рейс из Екатеринбурга в Москву, на который еще не завершилась регистрация
+
+SELECT flight_no FROM flights 
+WHERE departure_airport = 'SVX' 
+AND arrival_airport IN ('VKO', 'SVO', 'DME')
+AND status IN ('Scheduled', 'On Time', 'Delayed')
+ORDER BY scheduled_departure 
+LIMIT 1
+
+--Вывести самый дешевый и дорогой билет и стоимость ( в одном результирующем ответе)
+
+SELECT amount, ticket_no FROM ticket_flights 
+WHERE amount IN 
+((SELECT MAX(amount) FROM ticket_flights ),
+(SELECT MIN(amount) FROM ticket_flights ))
+
+-- Написать DDL таблицы Customers , должны быть поля id , firstName, LastName, email , phone. Добавить ограничения на поля ( constraints) .
+
+CREATE TABLE IF NOT EXISTS customers
+(
+    id bigint NOT NULL,
+    "firstName" character varying(20),
+    "LastName" character varying(30),
+    "email" character varying(30),
+    "phone" character varying(15),
+    PRIMARY KEY (id)
+);
+
+– Написать DDL таблицы Orders , должен быть id, customerId,	quantity. Должен быть внешний ключ на таблицу customers + ограничения
+	
+	CREATE TABLE IF NOT EXISTS orders
+(
+    id bigint NOT NULL,
+    "customerId" bigint,
+    quantity bigint,
+    PRIMARY KEY (id),
+    FOREIGN KEY ("customerId")
+        REFERENCES customers (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+        NOT VALID
+);
+
+-- Написать 5 insert в эти таблицы
+
+INSERT INTO customers (id, "firstName", "LastName", "email" , "phone")
+VALUES (1,'firstName', 'LastName', 'email@gmail.com' , '+37529222222')
+
+INSERT INTO customers (id, "firstName", "LastName", "email" , "phone")
+VALUES (2,'firstName2', 'LastName2', 'email2@gmail.com' , '+375292222222'
+
+INSERT INTO orders (id, "customerId", "quantity")
+VALUES (2, 1, 5)
+
+INSERT INTO orders (id, "customerId", "quantity")
+VALUES (1, 2, 4)
+
+INSERT INTO orders (id, "customerId", "quantity")
+VALUES (1, 1, 5)
+
+-- удалить таблицы
+
+DROP table orders
+DROP table customers
+
+— Написать свой кастомный запрос ( rus + sql) 
+Выбрать аэропорты и города в которых они находятся куда летают дальнемагистральные(больше 10000км range) самолеты
+
+SELECT DISTINCT a.airport_name, a.city, af.aircraft_code, af.range FROM airports_data a
+JOIN flights f ON a.airport_code = f.arrival_airport
+JOIN aircrafts af ON f.aircraft_code = af.aircraft_code
+WHERE af.range > 10000
